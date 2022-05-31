@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+// This script handles the Game state { PAUSED OR UN-PAUSED }
 public class GameManager : MonoBehaviour
 {
     [Header("Pause Menu Configs")] 
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
     GameState state = GameState.Gaming;
 
     void Awake()
-    {
+    {   // Storing in vars, both times. {Scaled, Unscaled}
         scaled = Time.deltaTime;
         unscaled = Time.unscaledDeltaTime;
     }
@@ -28,18 +29,19 @@ public class GameManager : MonoBehaviour
         {
             case GameState.Gaming:
                 state = GameState.Paused;
-                Time.timeScale = 0f;
+                Time.timeScale = 0f; // Paused
                 HideUI(false);
                 StartCoroutine(PauseUI(0f, 1f, unscaled));
                 break;
             case GameState.Paused:
                 state = GameState.Gaming;
-                Time.timeScale = 1f;
+                Time.timeScale = 1f; // Un-paused {Gaming State}
                 HideUI(true);
                 StartCoroutine(PauseUI(1f, 0f, scaled));
                 break;
         }
     }
+    // Fade Effect coroutine, depending the state, must pass Time Scale (not paused) or Unscaled (paused)
     IEnumerator PauseUI(float targetA, float targetB, float _time)
     {
         if (state == GameState.Paused) pauseMenu.SetActive(true);
