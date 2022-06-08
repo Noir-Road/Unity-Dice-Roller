@@ -22,15 +22,15 @@ public class PlayerRoll : MonoBehaviour
 
     void Update()
     {
-        shaker = rb.velocity;
-
         // If the velocity of the dice is not zero, then is rolling
         if (rb.velocity != Vector3.zero) state = Dice.ROLLING;
         // If is rolling, then cannot roll again until the Dice stop
         if (state == Dice.ROLLING) return;
+        
+        // By shaking the phone we create a new acceleration.
         shaker = Input.acceleration;
 
-        // If the shake force is greater than OR if we press the space bar - Then it will execute the below
+      // If that acceleration is greater than OR if we press the space bar - Then it will execute the below
         if (shaker.sqrMagnitude >= shakeForce || Input.GetKeyDown("space"))
         {
             RollDice();
